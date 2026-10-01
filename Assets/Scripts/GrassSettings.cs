@@ -36,6 +36,8 @@ public sealed class GrassSettings
     public float gustSpread = 1.72f;
     public float gustFalloff = 0.58f;
 
+    public TrampleSpot[] tramples;
+
     public float seedHeadChance = 0.09f;
     public float seedHeadLength = 0.11f;
     public int seedHeadGrains = 11;

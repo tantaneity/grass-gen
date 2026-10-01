@@ -57,20 +57,26 @@ public static class GrassBlade
 
     public static BladeTip Build(MeshBuffer mesh, GrassSettings settings, BladePlan plan, WindGust[] gusts, float seconds)
     {
-        Vector3 heading = new Vector3(plan.facing.x, 0.0f, plan.facing.y).normalized;
+        Vector2 push = GrassTrample.Push(settings.tramples, plan.root);
+        float pressed = push.magnitude;
+        Vector2 facing = pressed > 0.0f
+            ? Vector2.Lerp(plan.facing, push.normalized, Mathf.Clamp01(pressed)).normalized
+            : plan.facing;
+
+        Vector3 heading = new Vector3(facing.x, 0.0f, facing.y).normalized;
         Vector3 side = Vector3.Cross(Vector3.up, heading).normalized;
 
         float travel = Vector3.Dot(plan.root, heading);
         Vector2 wind = GrassWind.Bend(gusts, plan.height, plan.stiffness, settings.damping, travel, seconds);
 
-        float totalSlope = plan.droop + plan.lean + wind.x;
+        float totalSlope = plan.droop + plan.lean + wind.x * GrassTrample.Flatten(push) + pressed;
         float totalSway = wind.y;
 
         float ink = settings.outlineWeight
                     * Mathf.Clamp(plan.width / InkReferenceWidth, InkFloor, 1.0f);
 
         int rings = settings.segments + 1;
-        float step = plan.height / settings.segments;
+        float step = plan.height * GrassTrample.Flatten(push) / settings.segments;
         Vector3 cursor = plan.root;
         Vector3 tangent = Vector3.up;
         Vector3 lastFlank = side;
