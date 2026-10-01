@@ -46,8 +46,9 @@ public static class GrassSpecies
                     height = 1.15f, heightJitter = 0.30f, width = 0.009f, taperPower = 2.0f,
                     droop = 1.65f, droopJitter = 0.34f, twist = 64.0f, fold = 0.20f,
                     stiffness = 0.24f, stiffnessJitter = 0.38f, damping = 0.13f,
-                    seedHeadChance = 0.62f, seedHeadLength = 0.21f, seedHeadGrains = 38,
-                    seedHeadWidth = 0.0028f, seedHeadDroop = 2.6f,
+                    isPlumed = true, seedHeadChance = 0.24f,
+                    plumeLength = 0.34f, plumeCurve = 1.5f, plumeHairLength = 0.019f,
+                    plumeHairWidth = 0.0006f, plumeHairAngle = 58.0f,
                     bladeCount = 3000, clumpBias = 0.68f, dryShare = 0.42f
                 };
             case 3:

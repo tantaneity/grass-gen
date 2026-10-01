@@ -13,7 +13,16 @@ public static class GrassGeometry
         foreach (BladePlan plan in blades)
         {
             BladeTip tip = GrassBlade.Build(mesh, settings, plan, gusts, settings.windPhase);
-            if (plan.hasSeedHead)
+            if (!plan.hasSeedHead)
+            {
+                continue;
+            }
+
+            if (settings.isPlumed)
+            {
+                GrassPlume.Build(mesh, settings, tip, palette.seedHead);
+            }
+            else
             {
                 GrassSeedHead.Build(mesh, settings, plan, tip, palette.seedHead);
             }

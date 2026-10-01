@@ -38,6 +38,13 @@ public sealed class GrassSettings
 
     public TrampleSpot[] tramples;
 
+    public bool isPlumed;
+    public float plumeLength = 0.30f;
+    public float plumeCurve = 1.1f;
+    public float plumeHairLength = 0.030f;
+    public float plumeHairWidth = 0.0009f;
+    public float plumeHairAngle = 26.0f;
+
     public float seedHeadChance = 0.09f;
     public float seedHeadLength = 0.11f;
     public int seedHeadGrains = 11;
