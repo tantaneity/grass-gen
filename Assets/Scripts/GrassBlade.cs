@@ -27,6 +27,8 @@ public static class GrassBlade
     private const float MinimumWidth = 1e-5f;
     private const float RidgeShare = 0.5f;
     private const float RootShadeSpan = 0.35f;
+    private const float InkReferenceWidth = 0.019f;
+    private const float InkFloor = 0.30f;
 
     private static float SlopeProfile(float along)
     {
@@ -64,6 +66,9 @@ public static class GrassBlade
         float totalSlope = plan.droop + plan.lean + wind.x;
         float totalSway = wind.y;
 
+        float ink = settings.outlineWeight
+                    * Mathf.Clamp(plan.width / InkReferenceWidth, InkFloor, 1.0f);
+
         int rings = settings.segments + 1;
         float step = plan.height / settings.segments;
         Vector3 cursor = plan.root;
@@ -98,11 +103,11 @@ public static class GrassBlade
             Vector3 rightNormal = Vector3.Cross(((cursor + flank * half) - ridge), tangent).normalized;
 
             mesh.AddVertex(cursor - flank * half, -flank, Vector4.zero, tone, StrokeKind.Card,
-                0.0f, settings.outlineWeight, settings.depthBias, Shading.Surface(leftNormal));
+                0.0f, ink, settings.depthBias, Shading.Surface(leftNormal));
             mesh.AddVertex(ridge, face, Vector4.zero, tone, StrokeKind.Card,
                 0.0f, 0.0f, settings.depthBias, Shading.Surface(face));
             mesh.AddVertex(cursor + flank * half, flank, Vector4.zero, tone, StrokeKind.Card,
-                0.0f, settings.outlineWeight, settings.depthBias, Shading.Surface(rightNormal));
+                0.0f, ink, settings.depthBias, Shading.Surface(rightNormal));
 
             if (i > 0)
             {
