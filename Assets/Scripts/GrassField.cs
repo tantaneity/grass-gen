@@ -51,7 +51,8 @@ public static class GrassField
         {
             float angle = (float)dice.NextDouble() * FullTurn;
             float reach = Mathf.Sqrt((float)dice.NextDouble()) * settings.fieldRadius;
-            Vector3 place = new Vector3(Mathf.Cos(angle) * reach, 0.0f, Mathf.Sin(angle) * reach);
+            Vector3 place = GrassTerrain.Seat(
+                new Vector3(Mathf.Cos(angle) * reach, 0.0f, Mathf.Sin(angle) * reach), settings);
 
             if (IsBare(place, settings) || dice.NextDouble() > ClumpDensity(place, settings))
             {
@@ -74,6 +75,7 @@ public static class GrassField
                 droop = settings.droop * (1.0f + ((float)dice.NextDouble() - 0.5f) * settings.droopJitter * 2.0f),
                 twist = settings.twist + ((float)dice.NextDouble() - 0.5f) * settings.twistJitter * 2.0f,
                 lean = settings.lean,
+                slope = GrassTerrain.Normal(new Vector2(place.x, place.z), settings),
                 facing = Vector2.Lerp(new Vector2(Mathf.Cos(spin), Mathf.Sin(spin)), heading, 0.45f).normalized,
                 fill = palette.Blend(Mathf.Lerp(settings.youngShare, 1.0f, age), dryness, shade),
                 hasSeedHead = dice.NextDouble() < settings.seedHeadChance

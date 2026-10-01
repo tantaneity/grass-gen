@@ -2,8 +2,8 @@ using UnityEngine;
 
 public static class GrassGround
 {
-    private const int Spokes = 72;
-    private const int Rings = 20;
+    private const int Spokes = 132;
+    private const int Rings = 46;
     private const int ShadowTaps = 3;
     private const float Overhang = 1.18f;
     private const float FullTurn = Mathf.PI * 2.0f;
@@ -27,6 +27,16 @@ public static class GrassGround
         return Mathf.Clamp01(stretched + pressed) * settings.shadowDepth;
     }
 
+    private static void Lay(MeshBuffer mesh, GrassSettings settings, GrassPalette palette,
+        Vector3 place, float reach)
+    {
+        Vector2 flat = new Vector2(place.x, place.z);
+        Vector3 seated = new Vector3(place.x, GrassTerrain.Height(flat, settings) + Sink, place.z);
+        mesh.AddVertex(seated, Vector3.zero, Vector4.zero, Tone(settings, palette, place, reach),
+            StrokeKind.Card, 0.0f, Outline.None, settings.depthBias,
+            Shading.Surface(GrassTerrain.Normal(flat, settings)));
+    }
+
     private static Color Tone(GrassSettings settings, GrassPalette palette, Vector3 place, float reach)
     {
         Color soil = Color.Lerp(palette.earth, palette.rim, reach);
@@ -36,12 +46,10 @@ public static class GrassGround
     public static void Build(MeshBuffer mesh, GrassSettings settings, GrassPalette palette)
     {
         float radius = settings.fieldRadius * Overhang;
-        Vector3 up = Vector3.up;
         int centre = mesh.VertexCount;
         Vector3 middle = new Vector3(0.0f, Sink, 0.0f);
 
-        mesh.AddVertex(middle, Vector3.zero, Vector4.zero, Tone(settings, palette, middle, 0.0f),
-            StrokeKind.Card, 0.0f, Outline.None, settings.depthBias, Shading.Surface(up));
+        Lay(mesh, settings, palette, middle, 0.0f);
 
         for (int ring = 1; ring <= Rings; ring++)
         {
@@ -50,8 +58,7 @@ public static class GrassGround
             {
                 float angle = FullTurn * spoke / Spokes;
                 Vector3 place = middle + new Vector3(Mathf.Cos(angle), 0.0f, Mathf.Sin(angle)) * (radius * reach);
-                mesh.AddVertex(place, Vector3.zero, Vector4.zero, Tone(settings, palette, place, reach),
-                    StrokeKind.Card, 0.0f, Outline.None, settings.depthBias, Shading.Surface(up));
+                Lay(mesh, settings, palette, place, reach);
             }
         }
 

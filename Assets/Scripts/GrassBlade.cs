@@ -10,6 +10,7 @@ public struct BladePlan
     public float twist;
     public float lean;
     public Vector2 facing;
+    public Vector3 slope;
     public Color fill;
     public bool hasSeedHead;
 }
@@ -78,7 +79,7 @@ public static class GrassBlade
         int rings = settings.segments + 1;
         float step = plan.height * GrassTrample.Flatten(push) / settings.segments;
         Vector3 cursor = plan.root;
-        Vector3 tangent = Vector3.up;
+        Vector3 tangent = Vector3.Slerp(Vector3.up, plan.slope, settings.slopeLean).normalized;
         Vector3 lastFlank = side;
         int first = mesh.VertexCount;
 

@@ -38,6 +38,11 @@ public sealed class GrassSettings
 
     public TrampleSpot[] tramples;
 
+    public float reliefHeight = 0.20f;
+    public float reliefCell = 1.4f;
+    public int reliefOctaves = 4;
+    public float slopeLean = 0.8f;
+
     public Vector2 sunHeading = new Vector2(-0.7f, -0.72f);
     public float shadowReach = 0.26f;
     public float shadowDepth = 0.62f;
