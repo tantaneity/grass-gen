@@ -42,10 +42,12 @@ public sealed class GrassSettings
     public float seedHeadWidth = 0.0055f;
     public float seedHeadDroop = 1.8f;
 
-    public float shadeJitter = 0.16f;
-    public float youngShare = 0.28f;
-    public float dryShare = 0.10f;
-    public float outlineWeight = Outline.Small;
+    public float tipLift = 0.26f;
+    public float rootShade = 0.74f;
+    public float shadeJitter = 0.26f;
+    public float youngShare = 0.05f;
+    public float dryShare = 0.14f;
+    public float outlineWeight = Outline.Contour;
     public float depthBias = 0.0f;
 
     public GrassSettings Copy()

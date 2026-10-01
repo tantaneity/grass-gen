@@ -26,6 +26,7 @@ public static class GrassBlade
     private const float SheathNarrowing = 0.72f;
     private const float MinimumWidth = 1e-5f;
     private const float RidgeShare = 0.5f;
+    private const float RootShadeSpan = 0.35f;
 
     private static float SlopeProfile(float along)
     {
@@ -42,6 +43,14 @@ public static class GrassBlade
         float taper = Mathf.Pow(Mathf.Max(1.0f - along, 0.0f), settings.taperPower);
         float sheath = Mathf.Lerp(SheathNarrowing, 1.0f, Mathf.Clamp01(along / Mathf.Max(settings.shoulder, MinimumWidth)));
         return Mathf.Max(plan.width * taper * sheath, MinimumWidth) * RidgeShare;
+    }
+
+    private static Color Tone(GrassSettings settings, BladePlan plan, float along)
+    {
+        float shade = Mathf.Lerp(settings.rootShade, 1.0f, Mathf.Clamp01(along / RootShadeSpan));
+        float lift = 1.0f + settings.tipLift * along * along;
+        float scale = shade * lift;
+        return new Color(plan.fill.r * scale, plan.fill.g * scale, plan.fill.b * scale, 1.0f);
     }
 
     public static BladeTip Build(MeshBuffer mesh, GrassSettings settings, BladePlan plan, WindGust[] gusts, float seconds)
@@ -82,16 +91,17 @@ public static class GrassBlade
             Vector3 face = Vector3.Cross(flank, tangent).normalized;
             lastFlank = flank;
             float half = HalfWidth(settings, plan, along);
+            Color tone = Tone(settings, plan, along);
             Vector3 ridge = cursor + face * (half * settings.fold);
 
             Vector3 leftNormal = Vector3.Cross(tangent, (ridge - (cursor - flank * half))).normalized;
             Vector3 rightNormal = Vector3.Cross(((cursor + flank * half) - ridge), tangent).normalized;
 
-            mesh.AddVertex(cursor - flank * half, -flank, Vector4.zero, plan.fill, StrokeKind.Card,
+            mesh.AddVertex(cursor - flank * half, -flank, Vector4.zero, tone, StrokeKind.Card,
                 0.0f, settings.outlineWeight, settings.depthBias, Shading.Surface(leftNormal));
-            mesh.AddVertex(ridge, face, Vector4.zero, plan.fill, StrokeKind.Card,
+            mesh.AddVertex(ridge, face, Vector4.zero, tone, StrokeKind.Card,
                 0.0f, 0.0f, settings.depthBias, Shading.Surface(face));
-            mesh.AddVertex(cursor + flank * half, flank, Vector4.zero, plan.fill, StrokeKind.Card,
+            mesh.AddVertex(cursor + flank * half, flank, Vector4.zero, tone, StrokeKind.Card,
                 0.0f, settings.outlineWeight, settings.depthBias, Shading.Surface(rightNormal));
 
             if (i > 0)

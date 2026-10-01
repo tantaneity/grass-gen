@@ -6,6 +6,7 @@ public static class GrassGeometry
     public static void Build(MeshBuffer mesh, GrassSettings settings, GrassPalette palette)
     {
         mesh.SetInk(palette.ink);
+        GrassGround.Build(mesh, settings, palette);
         WindGust[] gusts = GrassField.Gusts(settings);
         List<BladePlan> blades = GrassField.Sow(settings, palette);
 

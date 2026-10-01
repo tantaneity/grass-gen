@@ -8,6 +8,8 @@ public sealed class GrassPalette
     public Color seedHead;
     public Color ink;
     public Color background;
+    public Color earth;
+    public Color rim;
 
     public static GrassPalette Meadow => new GrassPalette
     {
@@ -16,7 +18,9 @@ public sealed class GrassPalette
         dry = Hex(0xb0a25c),
         seedHead = Hex(0x9c8a52),
         ink = Hex(0x2b2a22),
-        background = Hex(0xf6f3ec)
+        background = Hex(0xf6f3ec),
+        earth = Hex(0x56523d),
+        rim = Hex(0x8d886f)
     };
 
     public static GrassPalette Autumn => new GrassPalette
@@ -26,7 +30,9 @@ public sealed class GrassPalette
         dry = Hex(0xc0a768),
         seedHead = Hex(0xa98f55),
         ink = Hex(0x2f271d),
-        background = Hex(0xf6f3ec)
+        background = Hex(0xf6f3ec),
+        earth = Hex(0x61532f),
+        rim = Hex(0x9a8e6c)
     };
 
     public Color Blend(float age, float dryness, float shade)
