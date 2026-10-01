@@ -38,6 +38,10 @@ public sealed class GrassSettings
 
     public TrampleSpot[] tramples;
 
+    public Vector2 sunHeading = new Vector2(-0.7f, -0.72f);
+    public float shadowReach = 0.26f;
+    public float shadowDepth = 0.62f;
+
     public bool isPlumed;
     public float plumeLength = 0.30f;
     public float plumeCurve = 1.1f;

@@ -10,6 +10,7 @@ public sealed class GrassPalette
     public Color background;
     public Color earth;
     public Color rim;
+    public Color shadow;
 
     public static GrassPalette Meadow => new GrassPalette
     {
@@ -20,7 +21,8 @@ public sealed class GrassPalette
         ink = Hex(0x2b2a22),
         background = Hex(0xf6f3ec),
         earth = Hex(0x56523d),
-        rim = Hex(0x8d886f)
+        rim = Hex(0x8d886f),
+        shadow = Hex(0x343a28)
     };
 
     public static GrassPalette Autumn => new GrassPalette
@@ -32,7 +34,8 @@ public sealed class GrassPalette
         ink = Hex(0x2f271d),
         background = Hex(0xf6f3ec),
         earth = Hex(0x61532f),
-        rim = Hex(0x9a8e6c)
+        rim = Hex(0x9a8e6c),
+        shadow = Hex(0x453a22)
     };
 
     public Color Blend(float age, float dryness, float shade)

@@ -35,6 +35,11 @@ public static class GrassField
         return Hash01(cellX, cellZ, BareChannel, settings.seed) < settings.bareChance;
     }
 
+    public static float Cover(Vector3 place, GrassSettings settings)
+    {
+        return IsBare(place, settings) ? 0.0f : ClumpDensity(place, settings);
+    }
+
     public static List<BladePlan> Sow(GrassSettings settings, GrassPalette palette)
     {
         System.Random dice = new System.Random(settings.seed);
